@@ -5,10 +5,17 @@
 	<GZ_APPID>wxde5937b7f8acd726</GZ_APPID>
 	<!-- 公众平台_app_secret -->
 	<GZ_APPSECRET>d4624c36b6795d1d99dcf0547af5443d</GZ_APPSECRET>
-	<!-- 公众平台_URL_获取TOKEN -->
-	<GZ_URL_GET_ACCESS_TOKEN>https://api.weixin.qq.com/cgi-bin/token</GZ_URL_GET_ACCESS_TOKEN>
-	<!-- 公众平台_URL_获取JS_SDK API ticket -->
-	<GZ_URL_GET_JSAPI_TICKET>https://api.weixin.qq.com/cgi-bin/ticket/getticket</GZ_URL_GET_JSAPI_TICKET>
+	<!-- 服务域名 -->
+	<DOMAIN>http://127.0.0.1:8080</DOMAIN>
+	
+	<!-- static start -->
+	<!-- 获取access_token地址 -->
+	<URL_GET_ACCESS_TOKEN>/weixin-base/getAccessToken.ctrl</URL_GET_ACCESS_TOKEN>
+	<!-- 公众平台_获取用户基本信息_地址 -->
+	<GZ_URL_USER_INFO>https://api.weixin.qq.com/cgi-bin/user/info</GZ_URL_USER_INFO>
+	<!-- 公众平台_批量获取用户基本信息_地址 -->
+	<GZ_URL_USER_INFO_BATCHGET>https://api.weixin.qq.com/cgi-bin/user/info/batchget</GZ_URL_USER_INFO_BATCHGET>
+	<!-- static end -->
 </weixinConfig>
 
 

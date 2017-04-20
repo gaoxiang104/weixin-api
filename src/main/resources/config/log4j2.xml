@@ -24,6 +24,26 @@
 				<SizeBasedTriggeringPolicy size="1 MB" />
 			</Policies>
 		</RollingFile>
+		<RollingFile name="weixin_user_c"
+			fileName="${sys:catalina.home}/logs/weixin-api/user/c.log"
+			filePattern="${sys:catalina.home}/logs/weixin-api/user/$${date:yyMMdd}/c_%d{HHmmss}.log">
+			<PatternLayout>
+				<Pattern>%d{yyMMdd_HHmmss} %level{length=3} %msg%n</Pattern>
+			</PatternLayout>
+			<Policies>
+				<SizeBasedTriggeringPolicy size="1 MB" />
+			</Policies>
+		</RollingFile>
+		<RollingFile name="weixin_user_s"
+			fileName="${sys:catalina.home}/logs/weixin-api/user/s.log"
+			filePattern="${sys:catalina.home}/logs/weixin-api/user/$${date:yyMMdd}/s_%d{HHmmss}.log">
+			<PatternLayout>
+				<Pattern>%d{yyMMdd_HHmmss} %level{length=3} %msg%n</Pattern>
+			</PatternLayout>
+			<Policies>
+				<SizeBasedTriggeringPolicy size="1 MB" />
+			</Policies>
+		</RollingFile>
 	</Appenders>
 	<Loggers>
 		<Root level="ERROR">
@@ -37,6 +57,12 @@
 		</Logger>
 		<Logger name="weixin_s" level="INFO" additivity="false">
 			<AppenderRef ref="weixin_s" />
+		</Logger>
+		<Logger name="weixin_user_c" level="INFO" additivity="false">
+			<AppenderRef ref="weixin_user_c" />
+		</Logger>
+		<Logger name="weixin_user_s" level="INFO" additivity="false">
+			<AppenderRef ref="weixin_user_s" />
 		</Logger>
 	</Loggers>
 </Configuration>

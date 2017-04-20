@@ -1,5 +1,9 @@
 package org.xgo.weixinApi.model.user;
 
+import java.util.List;
+
+import org.xgo.weixinApi.model.WeiXinResponseError;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -16,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 @JsonInclude(Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class UserInfo {
+public class UserInfo extends WeiXinResponseError{
 
 	/** 用户是否订阅该公众号标识，值为0时，代表此用户没有关注该公众号，拉取不到其余信息。 */
 	private Integer subscribe;
@@ -47,7 +51,7 @@ public class UserInfo {
 	private String groupid;
 	/** 用户被打上的标签ID列表 */
 	@JsonProperty(value = "tagid_list")
-	private String tagidList;
+	private List<String> tagidList;
 
 	public String getCity() {
 		return city;
@@ -97,7 +101,7 @@ public class UserInfo {
 		return subscribeTime;
 	}
 
-	public String getTagidList() {
+	public List<String> getTagidList() {
 		return tagidList;
 	}
 
@@ -153,7 +157,7 @@ public class UserInfo {
 		this.subscribeTime = subscribeTime;
 	}
 
-	public void setTagidList(String tagidList) {
+	public void setTagidList(List<String> tagidList) {
 		this.tagidList = tagidList;
 	}
 
