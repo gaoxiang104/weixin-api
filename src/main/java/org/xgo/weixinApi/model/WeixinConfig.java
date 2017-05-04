@@ -9,6 +9,7 @@ import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
+import org.xgo.weixinApi.exception.NoFindWeixinConfigException;
 
 /**
  * 微信配置，单例模式
@@ -52,10 +53,10 @@ public enum WeixinConfig {
 	}
 
 	/** 获取某一个配置 */
-	public String get(String key) {
+	public String get(String key) throws NoFindWeixinConfigException {
 		String result = configMap.get(key);
 		if (StringUtils.isBlank(result)) {
-			// TODO 添加异常
+			throw new NoFindWeixinConfigException(key);
 		}
 		return result;
 	}

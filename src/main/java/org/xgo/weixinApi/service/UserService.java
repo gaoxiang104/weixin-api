@@ -11,6 +11,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.springframework.stereotype.Service;
+import org.xgo.weixinApi.exception.IllegalStateWeixinApiException;
 import org.xgo.weixinApi.model.WeixinConfig;
 import org.xgo.weixinApi.model.WeixinConfigStatic;
 import org.xgo.weixinApi.model.user.UserInfo;
@@ -80,7 +81,7 @@ public class UserService extends WeixinService {
 		log.getLogger("weixin_user_s").info("batchAccessUserInfo.reponse : {}",batchAccessUserInfoStr);
 		// 获取失败
 		if(batchAccessUserInfoStr.indexOf("errcode") != -1){
-			throw new IllegalStateException(batchAccessUserInfoStr);
+			throw new IllegalStateWeixinApiException(batchAccessUserInfoStr);
 		}
 		
 		ObjectMapper mapper = new ObjectMapper();
@@ -126,7 +127,7 @@ public class UserService extends WeixinService {
 		result = mapper.readValue(getUserInfoStr, UserInfo.class);
 		
 		if(null != result.getErrcode()){
-			throw new IllegalStateException(result.getErrcode() + ": " + result.getErrmsg());
+			throw new IllegalStateWeixinApiException(result.getErrcode() + ": " + result.getErrmsg());
 		}
 		
 		return result;

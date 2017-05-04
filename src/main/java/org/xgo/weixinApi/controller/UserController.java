@@ -3,11 +3,13 @@ package org.xgo.weixinApi.controller;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.xgo.base.Controller_;
+import org.xgo.weixinApi.exception.IllegalStateWeixinApiException;
 import org.xgo.weixinApi.service.UserService;
 
 /** 微信用户信息相关 */
@@ -33,7 +35,7 @@ public class UserController extends Controller_ {
 		} else {
 			try {
 				object = userService.userInfo(params);
-			} catch (IllegalStateException i) {
+			} catch (IllegalStateWeixinApiException i) {
 				error = i.getMessage();
 				log.getLogger("weixin_user_c").warn("UserController.userInfo({}) fail: {}", params, error);
 			} catch (Exception e) {
@@ -46,4 +48,41 @@ public class UserController extends Controller_ {
 		return result(error, object);
 	}
 	
+	/**
+	 * 授权获取openId
+	 * 
+	 * @param code 授权后微信给的code
+	 * @return
+	 */
+	@RequestMapping("authGetOpenid")
+	public Map<String, Object> authGetOpenid(@RequestBody String code) {
+		String error = null;
+		Object object = null;
+		if(StringUtils.isBlank(code)){
+			error = "授权后微信给的code是空的";
+		}
+		else{
+			
+		}
+		return result(error, object);
+	}
+
+	/**
+	 * 授权获取openId
+	 *
+	 * @param code 授权后微信给的code
+	 * @return
+	 */
+	@RequestMapping("authGetUserInfo")
+	public Map<String, Object> authGetUserInfo(@RequestBody String code) {
+		String error = null;
+		Object object = null;
+		if(StringUtils.isBlank(code)){
+			error = "授权后微信给的code是空的";
+		}
+		else{
+			
+		}
+		return result(error, object);
+	}
 }

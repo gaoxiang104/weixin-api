@@ -1,6 +1,6 @@
 package org.xgo.weixinApi.exception;
 
-public class WeixinApiException extends RuntimeException {
+public abstract class WeixinApiException extends Exception {
 
 	static final long serialVersionUID = -241488746881376883L;
 
