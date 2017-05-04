@@ -2,19 +2,12 @@ package org.xgo.weixinApi.service;
 
 import java.util.List;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.util.EntityUtils;
 import org.springframework.stereotype.Service;
 import org.xgo.weixinApi.exception.IllegalStateWeixinApiException;
 import org.xgo.weixinApi.model.WeixinConfig;
 import org.xgo.weixinApi.model.WeixinConfigStatic;
 import org.xgo.weixinApi.model.user.UserInfo;
+import org.xgo.weixinApi.model.user.outh.ResponseAccessToken;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,9 +21,9 @@ public class UserService extends WeixinService {
 	 * @param code 授权后微信给的code
 	 * @return
 	 */
-	public String authGetOpenid(String code) throws Exception {
-		String openId = null;
-		
+	public ResponseAccessToken authGetOpenid(String code) throws Exception {
+		ResponseAccessToken result = null;
+		// 组装URL
 		StringBuffer getUrl = new StringBuffer(WeixinConfig.INSTANCE.get(WeixinConfigStatic.GZ_URL_OAUTH2_ACCESS_TOKEN));
 		getUrl.append("?appid=");
 		getUrl.append(WeixinConfig.INSTANCE.get(WeixinConfigStatic.GZ_APPID));
@@ -39,11 +32,54 @@ public class UserService extends WeixinService {
 		getUrl.append("&code=");
 		getUrl.append(code);
 		getUrl.append("&grant_type=authorization_code");
+		// 发送请求，获取响应
+		String outhRespsAccessTokenStr = httpGetRequest(getUrl.toString());
+		// 记录应答
+		log.getLogger("weixin_user_s").info("authGetOpenid.reponse : {}", outhRespsAccessTokenStr);
+
+		ObjectMapper mapper = new ObjectMapper();
+		ResponseAccessToken responseAccessToken = mapper.readValue(outhRespsAccessTokenStr, ResponseAccessToken.class);
+
+		if (null != responseAccessToken.getErrcode()) {
+			throw new IllegalStateWeixinApiException(responseAccessToken.getErrcode() + ": " + responseAccessToken.getErrmsg());
+		}
+
+		result = responseAccessToken;
+
+		return result;
+	}
+	
+	/**
+	 * 授权获取微信用户信息
+	 *
+	 * @param code 授权后微信给的code
+	 * @return
+	 */
+	public UserInfo authGetUserInfo(String code) throws Exception{
+		UserInfo result = null;
 		
+		ResponseAccessToken accessToken = authGetOpenid(code);
+		// 组装URL
+		StringBuffer getUrl = new StringBuffer(WeixinConfig.INSTANCE.get(WeixinConfigStatic.GZ_URL_OAUTH2_USERINFO));
+		getUrl.append("?access_token=");
+		getUrl.append(accessToken.getAccessTonken());
+		getUrl.append("&openid=");
+		getUrl.append(accessToken.getOpenid());
+		getUrl.append("&lang=zh_CN");
+		// 发送请求，获取响应
+		String authUserInfoStr = httpGetRequest(getUrl.toString());
 		
+		// 记录应答
+		log.getLogger("weixin_user_s").info("authGetUserInfo.reponse : {}", authUserInfoStr);
+
+		ObjectMapper mapper = new ObjectMapper();
+		result = mapper.readValue(authUserInfoStr, UserInfo.class);
 		
+		if(null != result.getErrcode()){
+			throw new IllegalStateWeixinApiException(result.getErrcode() + ": " + result.getErrmsg());
+		}
 		
-		return openId;
+		return result;
 	}
 	
 	/**
@@ -90,17 +126,8 @@ public class UserService extends WeixinService {
 		requestBodyStr.append("]}");
 		
 //		log.getLogger("weixin_user_s").info("batchAccessUserInfo.request : {}",requestBodyStr);
-		
-		HttpClient httpClient = HttpClientBuilder.create().build();
-		HttpPost httpPost = new HttpPost(getUrl.toString());
-		httpPost.setHeader("Content-Type", "application/json; encoding=utf-8");
-		httpPost.setEntity(new StringEntity(requestBodyStr.toString(), "utf-8"));
-		
-		// 发送请求
-		HttpResponse response = httpClient.execute(httpPost);
-		// 解析应答
-		HttpEntity entity = response.getEntity();
-		String batchAccessUserInfoStr = EntityUtils.toString(entity, "UTF-8");
+		// 发送请求，获取响应
+		String batchAccessUserInfoStr = httpPostRequest(getUrl.toString(), requestBodyStr.toString());
 		// 记录应答
 		log.getLogger("weixin_user_s").info("batchAccessUserInfo.reponse : {}",batchAccessUserInfoStr);
 		// 获取失败
@@ -137,14 +164,8 @@ public class UserService extends WeixinService {
 		getUrl.append(openId);
 		getUrl.append("&lang=zh_CN");
 		
-		HttpClient httpClient = HttpClientBuilder.create().build();
-		HttpGet httpGet = new HttpGet(getUrl.toString());
-		
-		// 发送请求
-		HttpResponse response = httpClient.execute(httpGet);
-		// 解析应答
-		HttpEntity entity = response.getEntity();
-		String getUserInfoStr =  EntityUtils.toString(entity, "UTF-8");
+		// 发送请求，获取响应
+		String getUserInfoStr =  httpGetRequest(getUrl.toString());
 		// 记录应答
 		log.getLogger("weixin_user_s").info("getUserInfo.reponse : {}",getUserInfoStr);
 		ObjectMapper mapper = new ObjectMapper();

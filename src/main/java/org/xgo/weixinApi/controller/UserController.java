@@ -37,10 +37,10 @@ public class UserController extends Controller_ {
 				object = userService.userInfo(params);
 			} catch (IllegalStateWeixinApiException i) {
 				error = i.getMessage();
-				log.getLogger("weixin_user_c").warn("UserController.userInfo({}) fail: {}", params, error);
+				log.getLogger("weixin_user_c").warn("userInfo({}) fail: {}", params, error);
 			} catch (Exception e) {
 				error = e.getMessage();
-				log.getLogger("weixin_user_c").error("UserController.userInfo({}): ", params);
+				log.getLogger("weixin_user_c").error("userInfo({}): ", params);
 				log.getLogger("weixin_user_c").error("StackTrace: ", e);
 			}
 		}
@@ -62,13 +62,24 @@ public class UserController extends Controller_ {
 			error = "授权后微信给的code是空的";
 		}
 		else{
-			
+			try {
+				object = userService.authGetOpenid(code).getOpenid();
+			} 
+			catch (IllegalStateWeixinApiException i) {
+				error = i.getMessage();
+				log.getLogger("weixin_user_c").warn("authGetOpenid({}) fail: {}", code, error);
+			}
+			catch (Exception e) {
+				error = e.getMessage();
+				log.getLogger("weixin_user_c").error("authGetOpenid({}): ", code);
+				log.getLogger("weixin_user_c").error("StackTrace: ", e);
+			}
 		}
 		return result(error, object);
 	}
 
 	/**
-	 * 授权获取openId
+	 * 授权获取微信用户信息
 	 *
 	 * @param code 授权后微信给的code
 	 * @return
@@ -81,7 +92,18 @@ public class UserController extends Controller_ {
 			error = "授权后微信给的code是空的";
 		}
 		else{
-			
+			try {
+				object = userService.authGetUserInfo(code);
+			} 
+			catch (IllegalStateWeixinApiException i) {
+				error = i.getMessage();
+				log.getLogger("weixin_user_c").warn("authGetUserInfo({}) fail: {}", code, error);
+			}
+			catch (Exception e) {
+				error = e.getMessage();
+				log.getLogger("weixin_user_c").error("authGetUserInfo({}): ", code);
+				log.getLogger("weixin_user_c").error("StackTrace: ", e);
+			}
 		}
 		return result(error, object);
 	}
