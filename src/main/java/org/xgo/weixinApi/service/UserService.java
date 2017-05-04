@@ -23,6 +23,30 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class UserService extends WeixinService {
 
 	/**
+	 * 授权获取openId
+	 * 
+	 * @param code 授权后微信给的code
+	 * @return
+	 */
+	public String authGetOpenid(String code) throws Exception {
+		String openId = null;
+		
+		StringBuffer getUrl = new StringBuffer(WeixinConfig.INSTANCE.get(WeixinConfigStatic.GZ_URL_OAUTH2_ACCESS_TOKEN));
+		getUrl.append("?appid=");
+		getUrl.append(WeixinConfig.INSTANCE.get(WeixinConfigStatic.GZ_APPID));
+		getUrl.append("&secret=");
+		getUrl.append(WeixinConfig.INSTANCE.get(WeixinConfigStatic.GZ_APPSECRET));
+		getUrl.append("&code=");
+		getUrl.append(code);
+		getUrl.append("&grant_type=authorization_code");
+		
+		
+		
+		
+		return openId;
+	}
+	
+	/**
 	 * 通过openId获取用户信息
 	 * 
 	 * @param openIds
@@ -65,7 +89,7 @@ public class UserService extends WeixinService {
 		}
 		requestBodyStr.append("]}");
 		
-		log.getLogger("weixin_user_s").info("batchAccessUserInfo.request : {}",requestBodyStr);
+//		log.getLogger("weixin_user_s").info("batchAccessUserInfo.request : {}",requestBodyStr);
 		
 		HttpClient httpClient = HttpClientBuilder.create().build();
 		HttpPost httpPost = new HttpPost(getUrl.toString());

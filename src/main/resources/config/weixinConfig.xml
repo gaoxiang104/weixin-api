@@ -15,6 +15,10 @@
 	<GZ_URL_USER_INFO>https://api.weixin.qq.com/cgi-bin/user/info</GZ_URL_USER_INFO>
 	<!-- 公众平台_批量获取用户基本信息_地址 -->
 	<GZ_URL_USER_INFO_BATCHGET>https://api.weixin.qq.com/cgi-bin/user/info/batchget</GZ_URL_USER_INFO_BATCHGET>
+	<!-- 公众平台_通过code换取网页授权access_token_地址 -->
+	<GZ_URL_OAUTH2_ACCESS_TOKEN>https://api.weixin.qq.com/sns/oauth2/access_token</GZ_URL_OAUTH2_ACCESS_TOKEN>
+	<!-- 公众平台_网页授权_拉取用户信息(需scope为 snsapi_userinfo)_地址 -->
+	<GZ_URL_OAUTH2_USERINFO>https://api.weixin.qq.com/sns/userinfo</GZ_URL_OAUTH2_USERINFO>
 	<!-- static end -->
 </weixinConfig>
 
