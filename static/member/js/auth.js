@@ -42,11 +42,11 @@ function get_snsapi_userinfo_url(redirect_uri, type, state) {
 $(function() {
 	/** 点击“用户确认授权”按钮 */
 	$("#btn_snsapi_userinfo").click(function() {
-		window.location.href = get_snsapi_userinfo_url('http://gaoxiang104.vicp.io/weixin-api/member/auth_snsapi_userinfo.html','snsapi_userinfo');
+		window.location.href = get_snsapi_userinfo_url('http://gaoxiang104.vicp.io/member/auth_snsapi_userinfo.html','snsapi_userinfo');
 	});
 
 	/** 点击“静默方式授权”按钮 */
 	$("#btn_snsapi_base").click(function() {
-		window.location.href = get_snsapi_userinfo_url('http://gaoxiang104.vicp.io/weixin-api/member/auth_snsapi_base.html','snsapi_base');
+		window.location.href = get_snsapi_userinfo_url('http://gaoxiang104.vicp.io/member/auth_snsapi_base.html','snsapi_base');
 	});
 });

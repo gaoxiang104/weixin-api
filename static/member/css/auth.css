@@ -1,1 +1,19 @@
-@CHARSET "UTF-8";
+*{
+    margin:0;
+    padding:0;
+}
+
+button {
+    font-size: 130%;
+}
+
+ul li {list-style : none;}
+
+.b_div {
+    margin: auto 0;
+    text-align:center;
+}
+
+.b_div li {
+    margin-top: 10px;
+}

@@ -1,10 +1,38 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
 
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="email=no" name="format-detection">
+    <title>用户确认授权</title>
+    <link rel="stylesheet" type="text/css" href="css/auth_snsapi_userinfo.css" />
+    <script type="text/javascript" src="../assets/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="js/weixin-base.js"></script>
+</head>
+
+<body>
+    <table>
+        <tr>
+            <th>Key</td>
+                <th>Value</td>
+        </tr>
+        <tr>
+            <td>weixin-code</td>
+            <td id="wx_code"></td>
+        </tr>
+        <tr>
+            <td>weixin-openId</td>
+            <td id="openId"></td>
+        </tr>
+    </table>
+    <div class="but_div">
+        <button onclick="window.location.href = '/member/auth.html'">返回</button>
+    </div>
+    <script type="text/javascript" src="js/auth_snsapi_userinfo.js"></script>
 </body>
+
 </html>
