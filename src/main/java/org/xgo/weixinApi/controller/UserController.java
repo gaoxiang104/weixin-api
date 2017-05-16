@@ -84,7 +84,7 @@ public class UserController extends Controller_ {
 	 * @param code 授权后微信给的code
 	 * @return
 	 */
-	@RequestMapping("authGetUserInfo")
+	@RequestMapping("authGetUserInfo.ctrl")
 	public Map<String, Object> authGetUserInfo(@RequestBody String code) {
 		String error = null;
 		Object object = null;
